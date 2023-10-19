@@ -19,7 +19,7 @@ var dirPath = GetPath("home")
 var filePath = GetPath("file")
 var statePath = GetPath("state")
 
-
+// Get paths required for tool
 func GetPath(s string) (path string) {
 
 	// Get user 
@@ -42,8 +42,7 @@ func GetPath(s string) (path string) {
 	return path
 }
 
-// If directory exists: true
-// If directory doesn't exist: false
+// Check whether directory exists already
 func directoryCheck() (b bool) {
 	b = true
 
@@ -56,8 +55,7 @@ func directoryCheck() (b bool) {
 }
 
 
-// If state file exists: true
-// If state file doesn't exist: false
+// Check whether state file exists already
 func stateCheck() (b bool) {
 	b = true
 
@@ -69,8 +67,7 @@ func stateCheck() (b bool) {
 	return b
 }
 
-// If list file exists: true
-// If list file doesn't exist: false
+// Check whether list file exists already
 func listCheck() (b bool) {
 	b = true
 
@@ -82,6 +79,7 @@ func listCheck() (b bool) {
 	return b
 }
 
+// Create default path
 func createDefaultPath() {
 	
 	_, err := os.Stat(dirPath)
@@ -96,6 +94,7 @@ func createDefaultPath() {
 
 }
 
+// Create default list file, contains default values
 func createDefaultList() {
 
 	defaultTodoListJson := []Todo{
@@ -135,6 +134,7 @@ func createDefaultList() {
 
 }
 
+// Create default state file, default value being default-list
 func createDefaultState() {
 
 	// create default state file
@@ -157,6 +157,7 @@ func createDefaultState() {
 	
 }
 
+// Check if files and directories exist. If not, create them. Returns false if everything exists, else return true.
 func FilesExistCheck() (b bool){
 
 	b = false
