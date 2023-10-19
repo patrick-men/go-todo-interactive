@@ -17,7 +17,9 @@ func main() {
 	functions.GetState()
 
 	for {
-		action := functions.AskAction()
+		// true for add, false for see
+		// list > used for see, where user is asked which list they want to see; overwritten if action = true
+		action, list := functions.AskAction()
 
 		if action {
 			list, task, dueDate, prio := functions.UserInputAddToList()
@@ -25,7 +27,7 @@ func main() {
 			break
 
 		} else if !action {
-			fmt.Println("filler")
+			fmt.Printf("Here's the content of %s", list)
 			break
 		} 
 	}

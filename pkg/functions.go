@@ -36,7 +36,7 @@ func GetState() {
 }
 
 // Ask use whether he want to add to, or see a list. Handles wrong user input
-func AskAction() (action bool) {
+func AskAction() (action bool, list string) {
 
 	message := "Do you want to (a)dd to, or (s)ee the contents of a list"
 	input := strings.ToLower(readUserInput(message))
@@ -45,6 +45,8 @@ func AskAction() (action bool) {
 		action = true
 		return
 	} else if input == "s" || input == "se" || input == "see" {
+		list = readUserInput(fmt.Sprintf("Which list do you want to use [leave empty to use current: %s]", CurrentStateName))
+		if list == "" {list = CurrentStateName}
 		action = false
 		return
 	} else {
