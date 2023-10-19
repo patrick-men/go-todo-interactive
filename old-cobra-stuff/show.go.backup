@@ -22,7 +22,7 @@ var showCmd = &cobra.Command{
 				fmt.Println("error reading state file:", err)
 				return
 			}
-			
+
 			var todo functions.Todo
 
 			err = json.Unmarshal(current, &todo)
