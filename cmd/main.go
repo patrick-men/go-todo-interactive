@@ -15,7 +15,6 @@ func main() {
 	}
 
 	functions.GetState()
-
 	for {
 		// true for add, false for see
 		// list > used for see, where user is asked which list they want to see; overwritten if action = true
@@ -29,7 +28,7 @@ func main() {
 		} else if !action {
 			fmt.Printf("Here's the content of %s", list)
 			break
-		} 
+		}
 	}
 
 }

@@ -25,6 +25,24 @@ func readStateFile() error {
 	return nil
 }
 
+// Get all files that contain todo-lists
+func GetAllListFiles() (listfiles []string) {
+	files, err := os.ReadDir(dirPath)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	var listFiles []string
+	for _, file := range files {
+		if file.Name() != ".state.json" {
+			listFiles = append(listFiles, strings.TrimRight(file.Name(), ".json"))
+			return listFiles
+		}
+	}
+	return
+}
+
 // Get current state + error handling
 func GetState() {
 
@@ -46,7 +64,9 @@ func AskAction() (action bool, list string) {
 		return
 	} else if input == "s" || input == "se" || input == "see" {
 		list = readUserInput(fmt.Sprintf("Which list do you want to use [leave empty to use current: %s]", CurrentStateName))
-		if list == "" {list = CurrentStateName}
+		if list == "" {
+			list = CurrentStateName
+		}
 		action = false
 		return
 	} else {
@@ -72,10 +92,10 @@ func UserInputAddToList() (list, task, dueDate, prio string) {
 	message = "What's the priority"
 	prio = readUserInput(message)
 
-
 	return
 }
 
+// reads user input
 func readUserInput(message string) (input string) {
 
 	rl, err := readline.New(fmt.Sprintf("%s > ", message))

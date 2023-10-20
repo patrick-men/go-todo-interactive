@@ -6,3 +6,4 @@
   - Maybe show list of all existing files
     - If user still misstypes > ask whether he want to create, or try again
 - see > read json and print out properly
+- add mark/delete once task is done
