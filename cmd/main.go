@@ -23,10 +23,15 @@ func main() {
 		if action {
 			list, task, dueDate, prio := functions.UserInputAddToList()
 			fmt.Println(list, task, dueDate, prio)
+			functions.AddToList(list, task, dueDate, prio)
 			break
 
 		} else if !action {
-			fmt.Printf("Here's the content of %s", list)
+			fmt.Printf("\nHere's the content of %s:\n\n", list)
+			err := functions.ReadListFile(list)
+			if err != nil {
+				fmt.Println(err)
+			}
 			break
 		}
 	}

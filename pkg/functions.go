@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -11,6 +12,32 @@ import (
 
 var CurrentStateFile string
 var CurrentStateName string
+var UserHome = os.Getenv("HOME")
+
+func beautifyJSON(inputJSON []byte) ([]byte, error) {
+	var tasks []map[string]string
+	err := json.Unmarshal(inputJSON, &tasks)
+	if err != nil {
+		return nil, err
+	}
+
+	var formattedTasks []string
+	for i, task := range tasks {
+		index := i + 1
+		formattedTask := fmt.Sprintf("%d Task: %s", index, task["task"])
+		if dueDate := task["dueDate"]; dueDate != "" {
+			formattedTask += "\nDue Date: " + dueDate
+		}
+		if prio := task["priority"]; prio != "" {
+			formattedTask += "\nPriority: " + prio + "\n"
+		}
+		formattedTasks = append(formattedTasks, formattedTask)
+	}
+
+	formattedJSON := strings.Join(formattedTasks, "\n")
+
+	return []byte(formattedJSON), nil
+}
 
 // Read state file, output current state filename with and without file extension
 func readStateFile() error {
@@ -23,6 +50,26 @@ func readStateFile() error {
 	CurrentStateFile = filepath.Base(string(content))
 	CurrentStateName = strings.TrimRight(CurrentStateFile, ".json\n")
 	return nil
+}
+
+func ReadListFile(list string) error {
+	content, err := os.ReadFile(fmt.Sprintf("%s/.config/todo/%s.json", UserHome, list))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	var payload []interface{}
+	err = json.Unmarshal(content, &payload)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	beatufiedJson, _ := beautifyJSON(content)
+
+	fmt.Println(string(beatufiedJson))
+	return err
 }
 
 // Get all files that contain todo-lists
@@ -93,6 +140,10 @@ func UserInputAddToList() (list, task, dueDate, prio string) {
 	prio = readUserInput(message)
 
 	return
+}
+
+func AddToList(list, task, dueDate, prio string) {
+
 }
 
 // reads user input
