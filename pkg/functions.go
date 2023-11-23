@@ -129,6 +129,9 @@ func UserInputAddToList() (list, task, dueDate, prio string) {
 
 	message := fmt.Sprintf("Which list do you want to use [leave empty to use current: %s]", CurrentStateName)
 	list = readUserInput(message)
+	if list == "" {
+		list = strings.TrimSuffix(CurrentStateFile, "\n")
+	}
 
 	message = "What do you want to add to the list"
 	task = readUserInput(message)
@@ -142,7 +145,42 @@ func UserInputAddToList() (list, task, dueDate, prio string) {
 	return
 }
 
-func AddToList(list, task, dueDate, prio string) {
+func AddToList(list, task, dueDate, prio string) (err error) {
+
+	// Open the JSON file for appending.
+	file, err := os.OpenFile(fmt.Sprintf("%s/.config/todo/%s.json", UserHome, list), os.O_APPEND|os.O_CREATE, 0644)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+
+	// Read the existing JSON data from the file.
+	var data []map[string]string
+	err = json.NewDecoder(file).Decode(&data)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// Append the new element to the existing data.
+	data = append(data, map[string]string{
+		"task":     task,
+		"priority": prio,
+		"dueDate":  dueDate,
+	})
+	fmt.Println("hahahahahahahha")
+	fmt.Println(data)
+
+	// Write the updated JSON data back to the file.
+	encoder := json.NewEncoder(file)
+	err = encoder.Encode(data)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	return
 
 }
 

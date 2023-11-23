@@ -11,9 +11,8 @@ import (
 type Todo struct {
 	Task     string `json:"task"`
 	Priority string `json:"priority"`
-	DueDate	 string	`json:"dueDate"`
+	DueDate  string `json:"dueDate"`
 }
-
 
 var dirPath = GetPath("home")
 var filePath = GetPath("file")
@@ -22,7 +21,7 @@ var statePath = GetPath("state")
 // Get paths required for tool
 func GetPath(s string) (path string) {
 
-	// Get user 
+	// Get user
 	usr, err := user.Current()
 	if err != nil {
 		fmt.Println("error getting user's home directory:", err)
@@ -54,7 +53,6 @@ func directoryCheck() (b bool) {
 	return b
 }
 
-
 // Check whether state file exists already
 func stateCheck() (b bool) {
 	b = true
@@ -81,10 +79,10 @@ func listCheck() (b bool) {
 
 // Create default path
 func createDefaultPath() {
-	
+
 	_, err := os.Stat(dirPath)
 
-	if err != nil{
+	if err != nil {
 		err = os.MkdirAll(dirPath, 0755)
 		if err != nil {
 			fmt.Println("error creating project directories:", err)
@@ -109,7 +107,6 @@ func createDefaultList() {
 		fmt.Println("error creating list file:", err)
 		return
 	}
-	
 
 	// encode default values
 	jsonData, err := json.Marshal(defaultTodoListJson)
@@ -154,11 +151,10 @@ func createDefaultState() {
 
 	listFile.Close()
 
-	
 }
 
 // Check if files and directories exist. If not, create them. Returns false if everything exists, else return true.
-func FilesExistCheck() (b bool){
+func FilesExistCheck() (b bool) {
 
 	b = false
 

@@ -22,8 +22,7 @@ func main() {
 
 		if action {
 			list, task, dueDate, prio := functions.UserInputAddToList()
-			fmt.Println(list, task, dueDate, prio)
-			functions.AddToList(list, task, dueDate, prio)
+			_ = functions.AddToList(list, task, dueDate, prio)
 			break
 
 		} else if !action {
